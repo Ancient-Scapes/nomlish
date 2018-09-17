@@ -20,7 +20,9 @@ class Nomlish{
   // 取得した日本語を基にフォームに入力しPOSTする
   // ドローした旧き言霊を魔晄炉にフォームに咏唱しPOSTする
   async postForm(page) {
-    await page.click("input[name='transbtn']");
+    const s_translate = "input[name='transbtn']";
+    
+    await page.click(s_translate);
     await page.waitForNavigation({timeout: 60000, waitUntil: "networkidle2"});
   }
 
