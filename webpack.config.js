@@ -4,8 +4,12 @@ module.exports = {
   mode: 'development',
   externals: [nodeExternals()],
   target: 'node',
- 
   entry: './src/main.js',
+
+  output: {
+    library: 'nomlish',
+    libraryTarget: 'umd'
+  },
  
   module: {
     rules: [

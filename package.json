@@ -1,13 +1,16 @@
 {
   "name": "nomlish",
   "version": "0.0.1",
+  "description": "translate Japanese to Nomlish.",
   "main": "dist/main.js",
   "bin": "bin/nomlish",
   "repository": "git@github.com:SugarShootingStar/nomlish.git",
   "author": "SugarShootingStar <ryu.8224@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "nomlish": "node_modules/.bin/babel-node src/main.js"
+    "nomlish": "yarn webpack & yarn nomlish-node",
+    "webpack": "webpack",
+    "nomlish-node": "node src/index.js"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",
