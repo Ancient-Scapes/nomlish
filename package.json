@@ -8,9 +8,9 @@
   "author": "SugarShootingStar <ryu.8224@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "nomlish": "yarn webpack & yarn nomlish-node",
-    "webpack": "webpack",
-    "nomlish-node": "node src/index.js"
+    "nomlish": "yarn nomlish:webpack & yarn nomlish:node",
+    "nomlish:webpack": "webpack",
+    "nomlish:node": "node src/index.js"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",

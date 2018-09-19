@@ -3,14 +3,16 @@ class Nomlish{
   constructor(text, level) {
     this.text   = text;
     this.level  = level;
-    this.url    = "https://racing-lagoon.info/nomu/translate.php";
   }
 
   async setFormParamater(page) {
     const s_textJapanese = "body > form > div:nth-child(3) > div:nth-child(4) > div:nth-child(2) > textarea";
-    const s_selectLevel   = ".levelselect";
+    const s_selectLevel  = ".levelselect";
+    const value = this.text;
 
-    await page.type(s_textJapanese, this.text);
+    await page.evaluate((data) => {
+      return document.querySelector(data.s_textJapanese).value = data.value;
+    },{s_textJapanese, value})
     if(this.level !== null)  await page.select(s_selectLevel, this.level);
   }
 

@@ -1,17 +1,34 @@
 import puppeteer from "puppeteer";
 import Nomlish from "./class/nomlish";
 
-export async function translate(text, level) {
-  const browser = await puppeteer.launch();
-  let page      = await browser.newPage();
+let browser = null;
+let page = null;
 
-  const nomlish = new Nomlish(text, level);
-  await page.goto(nomlish.url);
+export async function init() {
+  browser = await puppeteer.launch({
+    // headless:false,
+    args: ['--disable-infobars','--disable-notifications']
+  });
+  page    = await browser.newPage();
+  // 画像、CSS、フォント、scriptの読み込みをしない指定で高速化
+  await page.setRequestInterception(true);
+  page.on('request', request => {
+    if (['image', 'stylesheet', 'font', 'script'].indexOf(request.resourceType()) !== -1) {
+      request.abort();
+    } else {
+      request.continue();
+    }
+  });
+  await page.goto("https://racing-lagoon.info/nomu/translate.php");
+}
 
-  const nomlishText = await translateJapanese(page, nomlish);
+export function close() {
   browser.close();
+}
 
-  return nomlishText;
+export async function translate(text, level) {
+  const nomlish = new Nomlish(text, level);
+  return translateJapanese(page, nomlish);
 }
 
 async function translateJapanese(page, nomlish) {
