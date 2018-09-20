@@ -5,6 +5,12 @@ class Nomlish{
     this.level  = level;
   }
 
+  /**
+   * フォームに必要な情報をセットする
+   *
+   * @param {*} page ノムリッシュ翻訳サイト
+   * @memberof Nomlish
+   */
   async setFormParamater(page) {
     const s_textJapanese = "body > form > div:nth-child(3) > div:nth-child(4) > div:nth-child(2) > textarea";
     const s_selectLevel  = ".levelselect";
@@ -16,7 +22,13 @@ class Nomlish{
     if(this.level !== null)  await page.select(s_selectLevel, this.level);
   }
 
-  // 取得した日本語を基にフォームに入力しPOSTする
+  
+  /**
+   * フォームをPOSTし待つ
+   *
+   * @param {*} page ノムリッシュ翻訳サイト
+   * @memberof Nomlish
+   */
   async postForm(page) {
     const s_translate = "input[name='transbtn']";
     
@@ -24,7 +36,13 @@ class Nomlish{
     await page.waitForNavigation({timeout: 60000, waitUntil: "networkidle2"});
   }
 
-  // POST結果からノムリッシュ・テキストを取得する
+  /**
+   * 翻訳後のテキストを取得する
+   *
+   * @param {*} page ノムリッシュ翻訳サイト
+   * @returns
+   * @memberof Nomlish
+   */
   async fetchNomlishText(page) {
     const s_textNomlish = "body > form > div:nth-child(3) > div:nth-child(4) > div:nth-child(5) > textarea";
 
