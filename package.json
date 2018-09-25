@@ -8,15 +8,18 @@
   "author": "SugarShootingStar <ryu.8224@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "nomlish": "yarn nomlish:webpack & yarn nomlish:node",
-    "nomlish:webpack": "webpack",
-    "nomlish:node": "node src/index.js"
+    "nomlish": "yarn webpack & yarn node",
+    "webpack": "webpack",
+    "node": "node src/index.js",
+    "test": "ava --verbose",
+    "test-compile":"yarn webpack && yarn test"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/runtime": "^7.0.0",
+    "ava": "^0.25.0",
     "babel-loader": "^8.0.2",
     "puppeteer": "^1.8.0",
     "webpack": "^4.19.0",
