@@ -1,48 +1,54 @@
 import puppeteer from "puppeteer";
-import Nomlish from "./class/nomlish";
+import Helper from "./nomlishPageHelper";
 
-let browser = null;
-let page = null;
+export default class NomlishTranslate {
 
+  constructor() {
+    this.browser = null;
+    this.page = null;
+  }
 
-/**
- * ブラウザの立ち上げ関係処理
- * 
- * @export
- */
-export async function init() {
-  browser = await puppeteer.launch({
-    args: ['--disable-infobars','--disable-notifications']
-  });
-  page    = await browser.newPage();
-  await pageLoadSetting(page);
-  await page.goto("https://racing-lagoon.info/nomu/translate.php");
+  /**
+   * ブラウザの立ち上げ関係処理
+   * 
+   * @export
+   */
+  async init() {
+    this.browser = await puppeteer.launch({
+      // headless: false,
+      args: ['--disable-infobars','--disable-notifications']
+    });
+    this.page    = await this.browser.newPage();
+    await pageLoadSetting(this.page);
+    await this.page.goto("https://racing-lagoon.info/nomu/translate.php");
+  }
+
+  /**
+   * 日本語をノムリッシュ・テキストに翻訳して返すメイン処理
+   *
+   * @export
+   * @param {*} _text 日本語テキスト
+   * @param {*} _level 翻訳レベル
+   * @returns  ノムリッシュ・テキスト
+   */
+  async translate(_text, _level) {
+    const level = _level || null;
+    // await page.goto("https://racing-lagoon.info/nomu/translate.php");
+    const nomlish = new Helper(_text, level);
+    return translateJapanese(this.page, nomlish);
+  }
+
+  /**
+   * ブラウザを閉じる
+   *
+   * @export
+   */
+  async close() {
+    await this.browser.close();
+  }
+
 }
 
-
-/**
- * ブラウザを閉じる
- *
- * @export
- */
-export function close() {
-  browser.close();
-}
-
-
-/**
- * 日本語をノムリッシュ・テキストに翻訳して返すメイン処理
- *
- * @export
- * @param {*} _text 日本語テキスト
- * @param {*} _level 翻訳レベル
- * @returns  ノムリッシュ・テキスト
- */
-export async function translate(_text, _level) {
-  const level = _level || null;
-  const nomlish = new Nomlish(_text, level);
-  return translateJapanese(page, nomlish);
-}
 
 /**
  * ページ読み込み時の設定を行う

@@ -1,4 +1,4 @@
-class Nomlish{
+class NomlishPageHelper{
 
   constructor(text, level) {
     this.text   = text;
@@ -53,4 +53,4 @@ class Nomlish{
 
 }
 
-export default Nomlish;
+export default NomlishPageHelper;
