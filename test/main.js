@@ -1,32 +1,18 @@
-// const test = require('ava');
-// const nomlish  = require('../dist/main');
+const test = require("ava");
+const nomlish = require("../dist/main")
 
-import test from 'ava';
-import NomlishTranslate from '../dist/main';
+// レベル指定なしでの翻訳テスト
+test('cheerio', t => {
+  const beforeText = "テスト用文字列あいうえお";
 
-// サイトに接続できるか
-test('connect', async t => {
-  let nomlish = new NomlishTranslate();
-  await nomlish.init();
-  const url = nomlish.page.url();
-  await nomlish.close();
-
-  t.is(url, "https://racing-lagoon.info/nomu/translate.php");
+  return nomlish.translate(beforeText).then((nomlishText) => {
+    console.log(nomlishText);
+    t.not(nomlishText, beforeText, "翻訳できました");
+  });
 });
 
-// 翻訳レベルの指定なしで変換できているか
-test('translate', async t => {
-  let nomlish = new NomlishTranslate();
-  const text = await "テスト用文字列あいうえお";
-  await nomlish.init();
-  const translateText = await nomlish.translate(text);
-  await nomlish.close();
-
-  t.not(text, translateText);
-});
-
-// フォームの翻訳レベルを正しく指定できているか(引数にNumberを指定)
-// フォームの翻訳レベルを正しく指定できているか(引数にStringを指定)
+// 翻訳レベルの指定(stringの時)
+// 翻訳レベルの指定(numberの時)
 
 // 例外:translateの第一引数にテキストなし
-// 例外:translateの第二引数に不適切な文字列を与える
+// 例外:翻訳レベルに数字以外の不適切な値が入った場合
