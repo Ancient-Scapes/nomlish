@@ -1,18 +1,16 @@
+let axios = require('axios').default;
 const cheerio = require("cheerio");
-let request = require("request");
-request = request.defaults({jar: true});
+const axiosCookieJarSupport = require('axios-cookiejar-support').default;
+const tough = require('tough-cookie');
+const cookieJar = new tough.CookieJar();
+axiosCookieJarSupport(axios);
+axios.defaults.withCredentials = true;
+axios.defaults.jar = cookieJar;
 
 const NOMLISH_URL = "https://racing-lagoon.info/nomu/translate.php";
-let params = {
-  method: "POST",
-  url: NOMLISH_URL,
-  form: {
-    level : 2,
-    options : "nochk",
-    transbtn: "翻訳",
-  }
-};
-
+const postParams = new URLSearchParams();
+postParams.append("options", "nochk");
+postParams.append("transbtn", "翻訳");
 
 /**
  * テキストをノムリッシュテキストに変換します。
@@ -20,28 +18,32 @@ let params = {
  * @export
  * @param {*} text 変換前テキスト
  * @param {*} level 翻訳レベル:デフォルトでは2
- * @returns
+ * @returns ノムリッシュ・テキスト
  */
 export function translate(text, level) {
+  postParams.append("before", text);
+  postParams.append("level", getLevel(level));
+
   return new Promise((resolve, reject) => {
-    params.form.before = text;
-
-    request({url: NOMLISH_URL},function(error,response,body){
-      if (error && response.statusCode == 200) {
-        reject(error);
-      } 
-
-      let $ = cheerio.load(body);
-      params.form.token = $('input[name="token"]').val();
-
-      request.post(params, function(error, response, body){
-        if (error && response.statusCode == 200) {
-          reject(error);
-        }
-        $ = cheerio.load(body);
-        const nomlishText = $('textarea[name="after1"]').text();
-        resolve(nomlishText);
+    axios.get(NOMLISH_URL).then( (response) => {
+      let $ = cheerio.load(response.data);
+      // ページを開いた時にhidden要素で用意されているtokenを入れる
+      postParams.append("token", $('input[name="token"]').val());
+      
+      axios.post(NOMLISH_URL, postParams).then((response) => {
+        $ = cheerio.load(response.data);
+        return $('textarea[name="after1"]').text();
       })
+      .then(nomlishText => resolve(nomlishText))
+      .catch(error => reject(error.response.status))
     });
   });
+}
+
+function getLevel(level) {
+  if(0 < level && 7 > level) {
+    return level;
+  } else {
+    return 2;
+  }
 }
