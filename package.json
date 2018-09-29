@@ -8,11 +8,9 @@
   "author": "SugarShootingStar <ryu.8224@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "nomlish": "yarn webpack & yarn node",
     "webpack": "webpack",
-    "node": "node src/index.js",
     "test": "ava --verbose",
-    "test-compile": "yarn webpack && yarn test"
+    "test-transpile": "yarn webpack && yarn test"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",
