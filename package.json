@@ -1,6 +1,6 @@
 {
   "name": "nomlish",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "translate Japanese to Nomlish.",
   "main": "dist/main.js",
   "repository": "git@github.com:SugarShootingStar/nomlish.git",
