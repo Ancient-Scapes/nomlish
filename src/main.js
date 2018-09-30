@@ -1,5 +1,5 @@
 let axios = require('axios').default;
-const cheerio = require("cheerio");
+const libxmljs = require("libxmljs");
 const axiosCookieJarSupport = require('axios-cookiejar-support').default;
 const tough = require('tough-cookie');
 const cookieJar = new tough.CookieJar();
@@ -8,6 +8,8 @@ axios.defaults.withCredentials = true;
 axios.defaults.jar = cookieJar;
 
 const NOMLISH_URL = "https://racing-lagoon.info/nomu/translate.php";
+const xpathToekn = '//input[@name="token"]';
+const xpathAfter = '//textarea[@name="after1"]';
 const postParams = new URLSearchParams();
 postParams.append("options", "nochk");
 postParams.append("transbtn", "翻訳");
@@ -26,13 +28,13 @@ export function translate(text, level) {
 
   return new Promise((resolve, reject) => {
     axios.get(NOMLISH_URL).then( (response) => {
-      let $ = cheerio.load(response.data);
+      let html = libxmljs.parseHtml(response.data);
       // ページを開いた時にhidden要素で用意されているtokenを入れる
-      postParams.append("token", $('input[name="token"]').val());
+      postParams.append("token", html.get(xpathToekn).attr("value").value());
       
       axios.post(NOMLISH_URL, postParams).then((response) => {
-        $ = cheerio.load(response.data);
-        return $('textarea[name="after1"]').text();
+        html = libxmljs.parseHtml(response.data);
+        return html.get(xpathAfter).text();
       })
       .then(nomlishText => resolve(nomlishText))
       .catch(error => reject(error.response.status))
