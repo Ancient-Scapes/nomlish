@@ -18,8 +18,8 @@ postParams.append("transbtn", "翻訳");
  * テキストをノムリッシュテキストに変換します。
  *
  * @export
- * @param {*} text 変換前テキスト
- * @param {*} level 翻訳レベル:デフォルトでは2
+ * @param {String} text 変換前テキスト
+ * @param {Number} level 翻訳レベル:1~6
  * @returns ノムリッシュ・テキスト
  */
 export function translate(text, level) {
@@ -27,23 +27,33 @@ export function translate(text, level) {
   postParams.append("level", getLevel(level));
 
   return new Promise((resolve, reject) => {
-    axios.get(NOMLISH_URL).then( (response) => {
-      let html = libxmljs.parseHtml(response.data);
-      // ページを開いた時にhidden要素で用意されているtokenを入れる
-      postParams.append("token", html.get(xpathToekn).attr("value").value());
-      
-      axios.post(NOMLISH_URL, postParams).then((response) => {
-        html = libxmljs.parseHtml(response.data);
-        return html.get(xpathAfter).text();
-      })
-      .then(nomlishText => resolve(nomlishText))
-      .catch(error => reject(error.response.status))
-    });
+    axios.get(NOMLISH_URL)
+      .then((response) => {
+        let html = libxmljs.parseHtml(response.data);
+        // ページを開いた時にhidden要素で用意されているtokenを入れる
+        const token = html.get(xpathToekn).attr("value").value();
+        postParams.append("token", token);
+        
+        axios.post(NOMLISH_URL, postParams)
+          .then((response) => {
+            html = libxmljs.parseHtml(response.data);
+            return html.get(xpathAfter).text();
+          })
+          .then(nomlishText => resolve(nomlishText))
+          .catch(error => reject(error.response.status))
+      });
   });
 }
 
+
+/**
+ * 翻訳レベルを取得する
+ *
+ * @param {Number} level 翻訳レベル
+ * @returns 2~5の翻訳レベル
+ */
 function getLevel(level) {
-  if(0 < level && 7 > level) {
+  if(0 < level && 6 > level) {
     return level;
   } else {
     return 2;
