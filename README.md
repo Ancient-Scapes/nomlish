@@ -2,7 +2,8 @@
 
 ## ノムリッシュ翻訳
 
-![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)
+![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg) [![npm version](https://badge.fury.io/js/nomlish.svg)](https://badge.fury.io/js/nomlish) [![Build Status](https://travis-ci.org/SugarShootingStar/nomlish.svg?branch=master)](https://travis-ci.org/SugarShootingStar/nomlish) 
+[![Coverage Status](https://img.shields.io/coveralls/SugarShootingStan/nomlish.svg)](https://coveralls.io/r/SugarShootingStar/nomlish?branch=master)
 
 # Description(概要)
 
@@ -39,7 +40,7 @@ $ yarn add nomlish
 
 ## example(例)
 
-- 翻訳(翻訳レベル指定なし)
+- 翻訳(翻訳レベル指定なし) Promise ver.
 ```javascript
 const nomlish = require("nomlish");
 
@@ -52,7 +53,7 @@ nomlish.translate(beforeText)
   });
 ```
 
-- 翻訳(翻訳レベル指定あり)
+- 翻訳(翻訳レベル指定あり) Promise ver.
 ```javascript
 const nomlish = require("nomlish");
 
@@ -65,7 +66,6 @@ nomlish.translate(beforeText, level)
     console.log(nomlishText);
   });
 ```
-
 # Licence(ライセンス)
 
 This software is released under the MIT License, see LICENSE.
