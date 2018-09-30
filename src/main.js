@@ -40,8 +40,9 @@ export function translate(text, level) {
             return html.get(xpathAfter).text();
           })
           .then(nomlishText => resolve(nomlishText))
-          .catch(error => reject(error.response.status))
-      });
+          .catch(error => reject(error.response.status));
+      })
+      .catch(error => reject(error.response.status));
   });
 }
 

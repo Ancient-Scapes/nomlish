@@ -1,6 +1,6 @@
 {
   "name": "nomlish",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "translate Japanese to Nomlish.",
   "main": "dist/main.js",
   "repository": "git@github.com:SugarShootingStar/nomlish.git",
@@ -13,9 +13,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",
-    "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
-    "@babel/runtime": "^7.0.0",
     "ava": "^0.25.0",
     "babel-loader": "^8.0.2",
     "webpack": "^4.19.0",
