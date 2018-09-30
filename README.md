@@ -8,12 +8,12 @@
 
 任意の文字列をノムリッシュ・テキストに変換するライブラリです。
 
-axiosとlibxmljsを用いて実装されています。axiosベースのためすべてPromiseでで処理結果が返ってきます。
+axiosとlibxmljsを用いて実装されています。axiosベースのためすべてPromiseで処理結果が返ってきます。
 
 ### nomlish.translate(text, level)
 
 - text 任意のString
-- level 1~6のNumber
+- level 1~5のNumber
   - 1:日→野 Lv1
   - 2:日→野 Lv2
   - 3:日→野 Lv3
