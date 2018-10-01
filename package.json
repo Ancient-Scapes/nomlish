@@ -1,12 +1,16 @@
 {
   "name": "nomlish",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "translate Japanese to Nomlish.",
   "main": "dist/main.js",
   "repository": "git@github.com:SugarShootingStar/nomlish.git",
   "author": "SugarShootingStar <ryu.8224@gmail.com>",
   "license": "MIT",
-  "keywords": ["nomlish", "translate", "Japanese"],
+  "keywords": [
+    "nomlish",
+    "translate",
+    "Japanese"
+  ],
   "scripts": {
     "webpack": "webpack",
     "test": "nyc ava --verbose",
@@ -27,8 +31,7 @@
     "axios": "^0.18.0",
     "axios-cookiejar-support": "^0.4.2",
     "libxmljs": "^0.19.5",
-    "node-version": "^1.2.0",
-    "tough-cookie": "^2.4.3",
-    "url": "^0.11.0"
+    "querystring": "^0.2.0",
+    "tough-cookie": "^2.4.3"
   }
 }

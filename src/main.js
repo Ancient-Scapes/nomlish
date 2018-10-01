@@ -1,6 +1,6 @@
 let axios = require('axios').default;
 const libxmljs = require("libxmljs");
-const nodeVersion = require("node-version");
+const querystring = require('querystring');
 const axiosCookieJarSupport = require('axios-cookiejar-support').default;
 const tough = require('tough-cookie');
 const cookieJar = new tough.CookieJar();
@@ -21,15 +21,13 @@ const xpathAfter = '//textarea[@name="after1"]';
  * @returns ノムリッシュ・テキスト
  */
 export function translate(text, level) {
-  const postParams = setPostParam(text, level);
-
   return new Promise((resolve, reject) => {
     axios.get(NOMLISH_URL)
       .then((response) => {
         let html = libxmljs.parseHtml(response.data);
         // ページを開いた時にhidden要素で用意されているtokenを入れる
         const token = html.get(xpathToekn).attr("value").value();
-        postParams.append("token", token);
+        const postParams = setPostParam(text, level, token);
         
         axios.post(NOMLISH_URL, postParams)
           .then((response) => {
@@ -63,25 +61,16 @@ function getLevel(level) {
  *
  * @param {String} text 変換前テキスト
  * @param {Number} level 翻訳レベル:1~6
- * @returns POSTパラメータであるURLSearchParams()
+ * @param {String} token POSTに必要なトークン
+ * @returns POSTパラメータ
  */
-function setPostParam(text, level) {
-  let postParams = null;
-  const useNodeVersion = nodeVersion.major;
-
-  // nodeのバージョンが10以上の場合そのままURLSearchParamsを使用できる
-  if(useNodeVersion >= 10) {
-    postParams = new URLSearchParams();
-  // nodeのバージョンが8か9系列の場合urlをrequireしなければ動かない
-  } else if(useNodeVersion > 7 && useNodeVersion < 10) {
-    const {URLSearchParams} = require("url");
-    postParams = new URLSearchParams();
-  }
-
-  postParams.append("options", "nochk");
-  postParams.append("transbtn", "翻訳");
-  postParams.append("before", text);
-  postParams.append("level", getLevel(level));
-
-  return postParams;
+function setPostParam(text, level, token) {
+  const params = {
+    options : "nochk",
+    transbtn: "翻訳",
+    before  : text,
+    level   : getLevel(level),
+    token   : token
+  };
+  return querystring.stringify(params);
 }

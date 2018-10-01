@@ -3,3 +3,9 @@
 webpack.config.js
 src/
 test/
+.nyc_output
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
