@@ -1,11 +1,12 @@
 {
   "name": "nomlish",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "translate Japanese to Nomlish.",
   "main": "dist/main.js",
   "repository": "git@github.com:SugarShootingStar/nomlish.git",
   "author": "SugarShootingStar <ryu.8224@gmail.com>",
   "license": "MIT",
+  "keywords": ["nomlish", "translate", "Japanese"],
   "scripts": {
     "webpack": "webpack",
     "test": "nyc ava --verbose",

@@ -3,7 +3,7 @@
 ## ノムリッシュ翻訳
 
 ![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg) [![npm version](https://badge.fury.io/js/nomlish.svg)](https://badge.fury.io/js/nomlish) [![Build Status](https://travis-ci.org/SugarShootingStar/nomlish.svg?branch=master)](https://travis-ci.org/SugarShootingStar/nomlish) 
-[![Coverage Status](https://img.shields.io/coveralls/SugarShootingStan/nomlish.svg)](https://coveralls.io/r/SugarShootingStar/nomlish?branch=master)
+[![Coverage Status](https://img.shields.io/coveralls/SugarShootingStar/nomlish.svg)](https://coveralls.io/r/SugarShootingStar/nomlish?branch=master)
 
 # Description(概要)
 
