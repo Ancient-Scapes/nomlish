@@ -2,7 +2,7 @@ const test = require("ava");
 const nomlish = require("../dist/main");
 const beforeText = "テスト用文字列あいうえおシュガーシューティングスターフェットチーネグミピュレグミイエーイ渋谷最高";
 
-test('textOnly', t => {
+test('textOnly', t => {  
   return nomlish.translate(beforeText).then((nomlishText) => {
     t.not(nomlishText, beforeText);
   });

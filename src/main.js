@@ -1,5 +1,6 @@
 let axios = require('axios').default;
 const libxmljs = require("libxmljs");
+const nodeVersion = require("node-version");
 const axiosCookieJarSupport = require('axios-cookiejar-support').default;
 const tough = require('tough-cookie');
 const cookieJar = new tough.CookieJar();
@@ -10,9 +11,6 @@ axios.defaults.jar = cookieJar;
 const NOMLISH_URL = "https://racing-lagoon.info/nomu/translate.php";
 const xpathToekn = '//input[@name="token"]';
 const xpathAfter = '//textarea[@name="after1"]';
-const postParams = new URLSearchParams();
-postParams.append("options", "nochk");
-postParams.append("transbtn", "翻訳");
 
 /**
  * テキストをノムリッシュテキストに変換します。
@@ -23,8 +21,7 @@ postParams.append("transbtn", "翻訳");
  * @returns ノムリッシュ・テキスト
  */
 export function translate(text, level) {
-  postParams.append("before", text);
-  postParams.append("level", getLevel(level));
+  const postParams = setPostParam(text, level);
 
   return new Promise((resolve, reject) => {
     axios.get(NOMLISH_URL)
@@ -59,4 +56,32 @@ function getLevel(level) {
   } else {
     return 2;
   }
+}
+
+/**
+ * フォームをPOSTするのに必要なパラメータの設定
+ *
+ * @param {String} text 変換前テキスト
+ * @param {Number} level 翻訳レベル:1~6
+ * @returns POSTパラメータであるURLSearchParams()
+ */
+function setPostParam(text, level) {
+  let postParams = null;
+  const useNodeVersion = nodeVersion.major;
+
+  // nodeのバージョンが10以上の場合そのままURLSearchParamsを使用できる
+  if(useNodeVersion >= 10) {
+    postParams = new URLSearchParams();
+  // nodeのバージョンが8か9系列の場合urlをrequireしなければ動かない
+  } else if(useNodeVersion > 7 && useNodeVersion < 10) {
+    const {URLSearchParams} = require("url");
+    postParams = new URLSearchParams();
+  }
+
+  postParams.append("options", "nochk");
+  postParams.append("transbtn", "翻訳");
+  postParams.append("before", text);
+  postParams.append("level", getLevel(level));
+
+  return postParams;
 }

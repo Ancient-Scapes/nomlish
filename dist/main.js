@@ -104,7 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"translate\", function() { return translate; });\nvar axios = __webpack_require__(/*! axios */ \"axios\").default;\n\nvar libxmljs = __webpack_require__(/*! libxmljs */ \"libxmljs\");\n\nvar axiosCookieJarSupport = __webpack_require__(/*! axios-cookiejar-support */ \"axios-cookiejar-support\").default;\n\nvar tough = __webpack_require__(/*! tough-cookie */ \"tough-cookie\");\n\nvar cookieJar = new tough.CookieJar();\naxiosCookieJarSupport(axios);\naxios.defaults.withCredentials = true;\naxios.defaults.jar = cookieJar;\nvar NOMLISH_URL = \"https://racing-lagoon.info/nomu/translate.php\";\nvar xpathToekn = '//input[@name=\"token\"]';\nvar xpathAfter = '//textarea[@name=\"after1\"]';\nvar postParams = new URLSearchParams();\npostParams.append(\"options\", \"nochk\");\npostParams.append(\"transbtn\", \"翻訳\");\n/**\n * テキストをノムリッシュテキストに変換します。\n *\n * @export\n * @param {String} text 変換前テキスト\n * @param {Number} level 翻訳レベル:1~6\n * @returns ノムリッシュ・テキスト\n */\n\nfunction translate(text, level) {\n  postParams.append(\"before\", text);\n  postParams.append(\"level\", getLevel(level));\n  return new Promise(function (resolve, reject) {\n    axios.get(NOMLISH_URL).then(function (response) {\n      var html = libxmljs.parseHtml(response.data); // ページを開いた時にhidden要素で用意されているtokenを入れる\n\n      var token = html.get(xpathToekn).attr(\"value\").value();\n      postParams.append(\"token\", token);\n      axios.post(NOMLISH_URL, postParams).then(function (response) {\n        html = libxmljs.parseHtml(response.data);\n        return html.get(xpathAfter).text();\n      }).then(function (nomlishText) {\n        return resolve(nomlishText);\n      }).catch(function (error) {\n        return reject(error.response.status);\n      });\n    }).catch(function (error) {\n      return reject(error.response.status);\n    });\n  });\n}\n/**\n * 翻訳レベルを取得する\n *\n * @param {Number} level 翻訳レベル\n * @returns 2~5の翻訳レベル\n */\n\nfunction getLevel(level) {\n  if (0 < level && 6 > level) {\n    return level;\n  } else {\n    return 2;\n  }\n}\n\n//# sourceURL=webpack://nomlish/./src/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"translate\", function() { return translate; });\nvar axios = __webpack_require__(/*! axios */ \"axios\").default;\n\nvar libxmljs = __webpack_require__(/*! libxmljs */ \"libxmljs\");\n\nvar nodeVersion = __webpack_require__(/*! node-version */ \"node-version\");\n\nvar axiosCookieJarSupport = __webpack_require__(/*! axios-cookiejar-support */ \"axios-cookiejar-support\").default;\n\nvar tough = __webpack_require__(/*! tough-cookie */ \"tough-cookie\");\n\nvar cookieJar = new tough.CookieJar();\naxiosCookieJarSupport(axios);\naxios.defaults.withCredentials = true;\naxios.defaults.jar = cookieJar;\nvar NOMLISH_URL = \"https://racing-lagoon.info/nomu/translate.php\";\nvar xpathToekn = '//input[@name=\"token\"]';\nvar xpathAfter = '//textarea[@name=\"after1\"]';\n/**\n * テキストをノムリッシュテキストに変換します。\n *\n * @export\n * @param {String} text 変換前テキスト\n * @param {Number} level 翻訳レベル:1~6\n * @returns ノムリッシュ・テキスト\n */\n\nfunction translate(text, level) {\n  var postParams = setPostParam(text, level);\n  return new Promise(function (resolve, reject) {\n    axios.get(NOMLISH_URL).then(function (response) {\n      var html = libxmljs.parseHtml(response.data); // ページを開いた時にhidden要素で用意されているtokenを入れる\n\n      var token = html.get(xpathToekn).attr(\"value\").value();\n      postParams.append(\"token\", token);\n      axios.post(NOMLISH_URL, postParams).then(function (response) {\n        html = libxmljs.parseHtml(response.data);\n        return html.get(xpathAfter).text();\n      }).then(function (nomlishText) {\n        return resolve(nomlishText);\n      }).catch(function (error) {\n        return reject(error.response.status);\n      });\n    }).catch(function (error) {\n      return reject(error.response.status);\n    });\n  });\n}\n/**\n * 翻訳レベルを取得する\n *\n * @param {Number} level 翻訳レベル\n * @returns 2~5の翻訳レベル\n */\n\nfunction getLevel(level) {\n  if (0 < level && 6 > level) {\n    return level;\n  } else {\n    return 2;\n  }\n}\n/**\n * フォームをPOSTするのに必要なパラメータの設定\n *\n * @param {String} text 変換前テキスト\n * @param {Number} level 翻訳レベル:1~6\n * @returns POSTパラメータであるURLSearchParams()\n */\n\n\nfunction setPostParam(text, level) {\n  var postParams = null;\n  var useNodeVersion = nodeVersion.major; // nodeのバージョンが10以上の場合そのままURLSearchParamsを使用できる\n\n  if (useNodeVersion >= 10) {\n    postParams = new URLSearchParams(); // nodeのバージョンが8か9系列の場合urlをrequireしなければ動かない\n  } else if (useNodeVersion > 7 && useNodeVersion < 10) {\n    var _require = __webpack_require__(/*! url */ \"url\"),\n        _URLSearchParams = _require.URLSearchParams;\n\n    postParams = new _URLSearchParams();\n  }\n\n  postParams.append(\"options\", \"nochk\");\n  postParams.append(\"transbtn\", \"翻訳\");\n  postParams.append(\"before\", text);\n  postParams.append(\"level\", getLevel(level));\n  return postParams;\n}\n\n//# sourceURL=webpack://nomlish/./src/main.js?");
 
 /***/ }),
 
@@ -141,6 +141,17 @@ eval("module.exports = require(\"libxmljs\");\n\n//# sourceURL=webpack://nomlish
 
 /***/ }),
 
+/***/ "node-version":
+/*!*******************************!*\
+  !*** external "node-version" ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"node-version\");\n\n//# sourceURL=webpack://nomlish/external_%22node-version%22?");
+
+/***/ }),
+
 /***/ "tough-cookie":
 /*!*******************************!*\
   !*** external "tough-cookie" ***!
@@ -149,6 +160,17 @@ eval("module.exports = require(\"libxmljs\");\n\n//# sourceURL=webpack://nomlish
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"tough-cookie\");\n\n//# sourceURL=webpack://nomlish/external_%22tough-cookie%22?");
+
+/***/ }),
+
+/***/ "url":
+/*!**********************!*\
+  !*** external "url" ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"url\");\n\n//# sourceURL=webpack://nomlish/external_%22url%22?");
 
 /***/ })
 
