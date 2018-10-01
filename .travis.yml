@@ -3,8 +3,7 @@ node_js:
   - 10
   - 8
 script:
-  - npm run test --coverage
+  - npm run test
 
-after_script:
-  - npm install coveralls
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+after_success:
+- './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'
