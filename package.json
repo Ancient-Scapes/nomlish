@@ -11,6 +11,10 @@
     "translate",
     "Japanese"
   ],
+  "nyc": {
+    "exclude":["dist/"],
+    "instrument": true
+  },
   "scripts": {
     "webpack": "webpack",
     "test": "nyc ava --verbose",

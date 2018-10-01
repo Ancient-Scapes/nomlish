@@ -6,12 +6,10 @@ module.exports = {
   target: 'node',
   devtool: 'inline-source-map',
   entry: './src/main.js',
-
   output: {
     library: 'nomlish',
     libraryTarget: 'umd'
   },
- 
   module: {
     rules: [
       {
