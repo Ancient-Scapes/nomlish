@@ -4,6 +4,7 @@ module.exports = {
   mode: 'development',
   externals: [nodeExternals()],
   target: 'node',
+  devtool: 'inline-source-map',
   entry: './src/main.js',
 
   output: {
