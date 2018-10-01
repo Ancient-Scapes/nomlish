@@ -1,6 +1,5 @@
 *.html
-.babelrc
-webpack.config.js
+webpack.*
 src/
 test/
 .nyc_output

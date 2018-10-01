@@ -1,6 +1,6 @@
 {
   "name": "nomlish",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "translate Japanese to Nomlish.",
   "main": "dist/main.js",
   "repository": "git@github.com:SugarShootingStar/nomlish.git",
@@ -12,13 +12,14 @@
     "Japanese"
   ],
   "nyc": {
-    "exclude":["dist/"],
+    "exclude":["dist"],
     "instrument": true
   },
   "scripts": {
-    "webpack": "webpack",
+    "dev-build": "webpack --config webpack.dev.js",
+    "prod-build": "webpack --config webpack.prod.js",
     "test": "nyc ava --verbose",
-    "test-transpile": "yarn webpack && yarn test"
+    "test-transpile": "dev-build && yarn test"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",
