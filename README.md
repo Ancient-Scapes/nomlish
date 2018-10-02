@@ -1,6 +1,6 @@
-# nomlish
+# nomlish(ノムリッシュ翻訳)
 
-## ノムリッシュ翻訳
+<img src="./readme_picture/logo.png" width="100%">
 
 ![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg) [![npm version](https://badge.fury.io/js/nomlish.svg)](https://badge.fury.io/js/nomlish) [![Build Status](https://travis-ci.org/SugarShootingStar/nomlish.svg?branch=master)](https://travis-ci.org/SugarShootingStar/nomlish) 
 [![Coverage Status](https://img.shields.io/coveralls/SugarShootingStar/nomlish.svg)](https://coveralls.io/r/SugarShootingStar/nomlish?branch=master)
